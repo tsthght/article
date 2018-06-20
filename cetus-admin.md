@@ -1,6 +1,6 @@
 ### Cetus监控模块使用及原理介绍
 ##### 1 概述
-Cetus是北京网易乐得DBA团队和SA团队联合打造的一款MySQL数据库中间件。Cetus具有读写分离版本和分库版本，已经部署在网易乐得部门众多线上MySQL集群，性能和稳定性均表现良好。其开源地址为:https://github.com/Lede-Inc/cetus,欢迎star关注。
+Cetus是北京网易乐得DBA团队和SA团队联合打造的一款MySQL数据库中间件。Cetus具有读写分离版本和分库版本，已经部署在网易乐得部门众多线上MySQL集群，性能和稳定性均表现良好。其开源地址为:https://github.com/Lede-Inc/cetus，欢迎star关注。
 
 本文主要对Cetus的监控模块的使用及原理进行介绍，并介绍Cetus使用过程中，监控模块常见的问题及解决方法。
 
@@ -13,7 +13,7 @@ Cetus监控模块拥有独立的监控线程，主要是对Cetus后端各个MySQ
 | :--------: | :--------:|
 | default-username  | 检测后端MySQL实例使用的账号。<br><b>`注意`，该账号的密码需要在users.json文件中正确配置 |
 | check-slave-delay     |   true表示检测主从延迟；false表示不检测主从延迟；默认为false<br><b>`注意`，true/false均小写 |
-| slave-delay-down      |    延迟到达该阈值时，会将该DB摘掉，不再提供服务，单位是秒,默认60s |
+| slave-delay-down      |    延迟到达该阈值时，会将该DB摘掉，不再提供服务，单位是秒，默认60s |
 | slave-delay-recover      |   延迟恢复到该阈值时候，会使之前由于延迟过大摘除的DB重新提供服务，单位是秒，默认30s |
 | group-replication-mode      |   1表示支持单主MGR集群模式；0表示普通MySQL集群，默认为0；<br><b>`注意`，暂时不支持多主MGR模式 |
 
@@ -35,7 +35,7 @@ Cetus会周期性（目前是3秒）的检测后端各个MySQL实例的状态。
 
 Cetus会周期性（300ms）的向主库的`proxy_heart_beat.tb_heartbeat`表更新当前时间戳，随后（50ms后）会从各个从库读取该时间戳，当前时间与该时间戳的差值，则作为主从延迟的时间。
 
-主从延迟的检测依赖于`proxy_heart_beat`库的`tb_heartbeat`表，因此在开启Cetus主从延迟检测功能之前，需要在主库上创建`proxy_heart_beat`库和`tb_heartbeat`表,与此同时，`default-user`需要具有`proxy_heart_beat.tb_heartbeat`表的对应权限。当然也需要成功将该建表信息同步到各个从库上。
+主从延迟的检测依赖于`proxy_heart_beat`库的`tb_heartbeat`表，因此在开启Cetus主从延迟检测功能之前，需要在主库上创建`proxy_heart_beat`库和`tb_heartbeat`表，与此同时，`default-user`需要具有`proxy_heart_beat.tb_heartbeat`表的对应权限。当然也需要成功将该建表信息同步到各个从库上。
 
 ```
 CREATE TABLE `tb_heartbeat` (
