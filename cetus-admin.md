@@ -11,7 +11,7 @@ Cetus监控模块拥有独立的监控线程，主要是对Cetus后端各个MySQ
 
 | 参数      |    含义 |
 | :--------: | :--------:|
-| default-username  | 检测后端MySQL实例使用的账号。<br><b>`注意`，该账号的密码需要在users.json文件中正确配置 |
+| default-username  | 检测后端MySQL实例所使用的账号。<br><b>`注意`，该账号的密码需要在users.json文件中正确配置 |
 | check-slave-delay     |   true表示检测主从延迟；false表示不检测主从延迟；默认为false<br><b>`注意`，true/false均小写 |
 | slave-delay-down      |    延迟到达该阈值时，会将该DB摘掉，不再提供服务，单位是秒，默认60s |
 | slave-delay-recover      |   延迟恢复到该阈值时候，会使之前由于延迟过大摘除的DB重新提供服务，单位是秒，默认30s |
