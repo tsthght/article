@@ -94,7 +94,7 @@ b. 配置文件中配置了`disable-threads=true`
 
 如遇该问题，当检查MySQL实例和网络没有问题的情况下，可能是由于MySQL实例上没有配置监控线程使用的账号。可以在Cetus所在机器使用监控账号直连MySQL实例，从而确定是否是账号配置的问题。
 
-##### 5.3 日志中循环打印错误日志`Check slave delay no data`
+##### 5.3 日志中循环打印错误日志`"Check slave delay no data"`
 
 日志中会打印提示信息如下：
 
