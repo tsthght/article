@@ -31,7 +31,7 @@ Cetus会周期性（目前是3秒）的检测后端各个MySQL实例的状态。
 
 当Cetus配置了参数`check-slave-delay=true`时，会检测主从延迟，主从延迟实时信息，可以通过命令`select * from backends`执行的结果的`slave delay`列来查看，如果该列显示的值为`2147483647`，则一般表示主从没有配置主从同步。
 
-当主从同步延迟超过`slave-delay-down`时，该MySQL实例会被临时摘掉，不再处理新到来的SQL请求；如果主从同步延迟恢复到`slave-delay-recover`，该MySQL实例会恢复，重新提供服务。设置两个阈值的主要目的是防止在某个阈值附近波动，造成从库的频繁摘除、添加。
+当主从同步延迟超过`slave-delay-down`时，该MySQL实例会被临时摘掉，不再处理新到来的SQL请求；如果主从同步延迟恢复到`slave-delay-recover`，该MySQL实例会恢复，重新提供服务。设置两个阈值的主要目的除了使业务使用更加灵活外，也为了防止在某个阈值附近波动，造成从库的频繁摘除、添加。
 
 Cetus会周期性（300ms）的向主库的`proxy_heart_beat.tb_heartbeat`表更新当前时间戳，随后（50ms后）会从各个从库读取该时间戳，当前时间与该时间戳的差值，则作为主从延迟的时间。
 
