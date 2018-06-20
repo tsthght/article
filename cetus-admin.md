@@ -70,7 +70,7 @@ MySQL集群在MGR模式时，当出现failover时，MGR集群内部各个节点�
 ##### 5.1 monitor线程不工作
 monitor线程不工作大致有两个原因：
 
-a. 配置文件中配置了`default-username=xxx`xxx没有在users.json中配置对应密码
+a. 配置文件中配置了`default-username=xxx`，xxx没有在users.json中配置对应密码
 
 日志中会打印提示信息如下：
 
