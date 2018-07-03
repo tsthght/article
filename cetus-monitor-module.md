@@ -25,7 +25,7 @@ Cetus会为监控模块维护一个连接池，按照后端MySQL实例的`ip:por
 
 Cetus会周期性（目前是3秒）的检测后端各个MySQL实例的状态。检测每个MySQL实例的状态时，会首先尝试从监控模块的连接池中，根据该MySQL实例的`ip:port`获取连接，如果成功从连接池中获取到连接，则会调用`mysql_ping()`来检测该MySQL实例是否存活；如果未能从连接池中成功获取连接，则需要调用`mysql_real_connect()`来创建新的连接，通过是否创建成功来判断该MySQL实例是否存活，创建成功的新连接也会随即加入监控模块连接池中。
 
-![3.1](./images/3.1.png)
+![1.3.1](./images/1.3.1.png)
 
 ##### 3.2 监控主从延迟
 
@@ -45,7 +45,7 @@ CREATE TABLE `tb_heartbeat` (
       ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 ```
 
-![3.2](./images/3.2.png)
+![1.3.2](./images/1.3.2.png)
 
 ##### 3.3 支持MGR模式
 普通的MySQL集群，主库的高可用一般通过MHA保障。当出现failover时，MHA会进行主从切换，并会通过Cetus的admin端口提供的命令，通知Cetus当前MySQL集群中拓扑结构的变化。
@@ -56,7 +56,7 @@ MySQL集群在MGR模式时，当出现failover时，MGR集群内部各个节点�
 
 当设置`group-replication-mode=1`之后，Cetus的监控模块会在`监控存活`和`监控主从延迟`逻辑之前，首先进行拓扑结构的探测。探测时，会首先找到MGR集群中的当前可用的主库，再通过主库找到所有可用的从库，获得主从信息之后，便会修改Cetus内部现有的主从拓扑信息。Cetus中主从拓扑信息修改完成后，再进入`监控存活`或`监控主从延迟`的逻辑。
 
-![3.3](./images/3.3.png)
+![1.3.3](./images/1.3.3.png)
 
 #### 4 监控模块未来优化
 后续Cetus的监控模块会考虑进一步优化，诸如：
