@@ -31,7 +31,7 @@ Cetus是北京网易乐得DBA团队和SA团队联合打造的一款MySQL数据�
 
 - 1 事务中的查询 
 - 2 `select...for update`  
-- 3 Cetus设置参数`master-preferred=true`所有流量全部路由主库 
+- 3 Cetus设置参数`master-preferred=true`所有流量默认全部路由主库 
 - 4 Cetus设置参数`read-master-percentage`控制主从读流量负载 
 - 5 使用注释`/*#mode=READWRITE*/`或`/*mode=READONLY*/`。
 
