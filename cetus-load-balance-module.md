@@ -33,7 +33,7 @@ Cetus是北京网易乐得DBA团队和SA团队联合打造的一款MySQL数据�
 - 2 `select...for update`  
 - 3 Cetus设置参数`master-preferred=true`所有流量默认全部路由主库 
 - 4 Cetus设置参数`read-master-percentage`控制主从读流量负载 
-- 5 使用注释`/*#mode=READWRITE*/`或`/*mode=READONLY*/`。
+- 5 使用注释`/*#mode=READWRITE*/`或`/*#mode=READONLY*/`。
 
 默认情况下，读流量会优先路由到从库，从库之间按照**轮训策略**在各个从库之间做负载均衡；一旦所有从库均不可用，会路由到主库上。目前Cetus的各个从库暂不支持按照权重做负载。
 
