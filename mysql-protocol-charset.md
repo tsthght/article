@@ -34,7 +34,7 @@ tcpdump抓包：
 
 > mysql -utest -p -h172.17.0.8 --ssl-mode=disable
 
-抓包发现，MySQL发送的handshake握手包中，设置的字符集是latin1；client返回的认证包中设置的字符集是gb2312；连接建立后，执行`show variables like '%char%'`发现，该session级`character_set_client`、`character_set_connection`和`character_set_results`变量被设置成了gb2312。
+抓包发现，MySQL发送的handshake握手包中，设置的字符集是latin1；client响应的认证包中设置的字符集是gb2312；连接建立后，执行`show variables like '%char%'`发现，该session级`character_set_client`、`character_set_connection`和`character_set_results`变量被设置成了gb2312。
 
 ![6.2.2.png](./images/6.2.2.png)
 
@@ -48,7 +48,7 @@ tcpdump抓包：
 
 > mysql -utest -p -h172.17.0.8 --default-character-set=utf8mb4 --ssl-mode=disable
 
-抓包发现，MySQL发送的handshake握手包中，设置的字符集是latin1；client返回的认证包中设置的字符集是utf8mb4；连接建立后，执行`show variables like '%char%'`发现，该session级`character_set_client`、`character_set_connection`和`character_set_results`变量被设置成了utf8mb4。
+抓包发现，MySQL发送的handshake握手包中，设置的字符集是latin1；client响应的认证包中设置的字符集是utf8mb4；连接建立后，执行`show variables like '%char%'`发现，该session级`character_set_client`、`character_set_connection`和`character_set_results`变量被设置成了utf8mb4。
 
 ![6.2.5.png](./images/6.2.5.png)
 
