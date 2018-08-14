@@ -79,3 +79,9 @@ binlog reader按功能主要有三个主要模块：1 伪装成slave，向MySQL�
 2 且需要MySQL版本是5.7.5及其以上版本
 3 binlog格式需要row格式
 4 后端的MySQL需要时Oracle或是Percona版本的，Mariadb暂时不支持
+
+#### 参考
+
+- [GTID consistent reads](http://www.proxysql.com/blog/proxysql-gtid-causal-reads)
+- [基于GTID追踪的自适应路由查询](http://blog.51cto.com/l0vesql/2093871)
+
