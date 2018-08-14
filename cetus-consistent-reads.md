@@ -57,9 +57,13 @@ binlog reader按功能主要有三个主要模块：1 伪装成slave，向MySQL�
 由于其需要其伪装成slave，因此其应该提供管理端口，进行GTID集合以及复制命令的设计。计划支持的命令有：
 
 1 查看当前复制状态、配置和延迟情况等 slow slave status;
+
 2 清空所有配置和GTID集合信息 reset slave;
+
 3 设置复制配置 change master to; (不需要考虑多主复制)
+
 4 查看所有Cetus复制情况 show dump list;
+
 5 开启关闭 start slave; stop slave;
 
 - Cetus
@@ -67,8 +71,11 @@ binlog reader按功能主要有三个主要模块：1 伪装成slave，向MySQL�
 由于Cetus 会从binlog reader上获取GTID集合信息，计划支持的命令有：
 
 1 设置复制配置 change master to ... where index = ; （按照每个backend维度设置）
+
 2 清空所有配置和GTID集合信息 reset slave;
+
 3 查看复制状态 slow slave status;
+
 4 开启关闭 start slave; stop slave;
 
 #### 5 约定
@@ -76,8 +83,11 @@ binlog reader按功能主要有三个主要模块：1 伪装成slave，向MySQL�
 支持强一致性读功能，需要满足以下条件：
 
 1 需要使用GTID模式
+
 2 且需要MySQL版本是5.7.5及其以上版本
+
 3 binlog格式需要row格式
+
 4 后端的MySQL需要时Oracle或是Percona版本的，Mariadb暂时不支持
 
 #### 参考
