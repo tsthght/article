@@ -17,16 +17,18 @@ MySQL**默认**操作模式是autocommit=ON/1的自动提交模式，该模式�
 | session1      |    session2 |
 | :--------: | :--------:|
 | set autocommit=0  | set autocommit = 0 |
-| insert into test values (1, 1) 可以查询到结果|    |
-|      |    insert into test values (1, 1)查询不到结果 |
+| insert into test values (1, 1) |    |
+| select * from test 可以查询到结果|    |
+|      |    select * from test 查询不到结果 |
 | commit |     |
-|      |    insert into test values (1, 1)可以查询到结果 |
+|      |    select * from test 可以查询到结果 |
 
 | session3      |    session4 |
 | :--------: | :--------:|
 | set autocommit=1  | set autocommit = 1 |
-| insert into test values (1, 1) 可以查询到结果|    |
-|      |    insert into test values (1, 1)可以查询到结果 |
+| insert into test values (1, 1)|    |
+| select * from test 可以查询到结果|    |
+|      |    select * from test 可以查询到结果 |
 
 
 #### 3 Cetus出现的问题分析及定位
