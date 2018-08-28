@@ -64,7 +64,7 @@ MySQL**默认**操作模式是autocommit=ON/1的自动提交模式，该模式�
 
 ![8.3.2.1.png](./images/8.3.2.1.png)
 
-通过上述抓包发现，`在事务中` 这个信息是MySQL端告诉给cetus的。
+通过上述抓包发现，`“连接处于事务中”` 这个信息是MySQL端告诉给cetus的。
 
 同样对问题2进行抓包分析，发现与上述类似，更新心跳表的update语句返回的结果中的server status的事务标志位被置位。
 
@@ -79,7 +79,7 @@ mysql> show global variables like '%autocommit%';
 +---------------+-------+
 1 row in set (0.00 sec)
 ```
-至此，上述两个问题的最终祸根在于MySQL端设置了全局autocommit=OFF。将全局autocommit设置为ON，一切恢复正常。
+至此，上述两个问题的最终根源在于MySQL端设置了全局autocommit=OFF。将全局autocommit设置为ON，一切恢复正常。
 
 #### 4 Cetus针对该场景的优化
 
