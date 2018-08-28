@@ -83,12 +83,14 @@ mysql> show global variables like '%autocommit%';
 
 #### 4 Cetus针对该场景的优化
 
-该问题是由于MySQL端设置了全局autcommit=OFF导致，但是cetus对该类场景如何兼容保证正确呢？
+该问题是由于MySQL端设置了全局autcommit=OFF导致，但是cetus对该类场景如何兼容，保证路由正确呢？
 
-究其原因是由于cetus判断当前连接是否在事务中仅仅依靠后端MySQL返回的server status，而没有再次确认当前连接是主库的连接还是从库的连接。
+究其原因是由于目前cetus判断当前连接是否在事务中仅仅依靠后端MySQL返回的server status，而没有再次确认当前连接是主库的连接还是从库的连接。
 
 因此，我们修改了cetus相关代码，判断连接在事务中，不仅依据MySQL返回结果，还要再次确认，是否是与主库建立的连接。这样就完美的兼容了这个场景，不至于sql路由错误。相关代码修改已经合并到cetus主分支。
 
 #### 5 总结
 
 通过本文分析，发现这两个错误均是MySQL设置了全局autocommit=OFF/0导致的。因此，当使用autocommit=OFF/0模式时，建议尽量不要在MySQL端设置，而是在业务端设置，从而避免不必要的问题。
+
+当然，也十分感谢cetus用户的耐心配合，才得以将问题分析清楚，使得cetus越来越健壮。
