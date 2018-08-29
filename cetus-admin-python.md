@@ -4,7 +4,7 @@
 
 Cetus是北京网易乐得DBA团队和SA团队联合打造的一款MySQL数据库中间件。Cetus具有读写分离版本和分库版本，已经部署在网易乐得部门众多线上MySQL集群，性能和稳定性均表现良好。其开源地址为:https://github.com/Lede-Inc/cetus，欢迎star关注。
 
-本文主要对cetus的admin端口如何适配Python的pymysql和MySQLdb模块进行描述。其他软件可能也会遇到类似问题，因此对适配思路进行描述，遇到类似问题的同学可以借鉴。
+本文主要以cetus的admin端口适配Python的pymysql模块的过程为例，论述适配方法。其他软件可能也会遇到类似适配问题，遇到类似问题的同学可以借鉴。
 
 #### 2 背景描述
 
