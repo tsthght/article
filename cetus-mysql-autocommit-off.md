@@ -1,4 +1,4 @@
-### MySQL设置全局autocommit=OFF/0时出现的问题及分析
+### MySQL设置全局autocommit=OFF/0时Cetus出现的问题及分析
 
 #### 1 概述
 
