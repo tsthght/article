@@ -76,7 +76,7 @@ grep "#client#"  cetus-29360.clg | grep "C_id:23" | less
 grep "#backend-rw#" cetus-29360.clg|awk 'BEGIN {c1=0;c2=0;c4=0;c8=0;c16=0;c32=0;c64=0;c128=0;c=0}{split($16, flag, ":"); split(flag[2], latency, "("); if(latency[1] <= 1) {c1=c1+1;} if(latency[1]>1 && latency[1]<=2) {c2++;} if(latency[1]>2 && latency[1]<=4) {c4++;} if(latency[1]>4 && latency[1]<=8) {c8++;} if(latency[1]>8 && latency[1]<=16) {c16++;}  if(latency[1]>16 && latency[1]<=32) {c32++;} if(latency[1]>32 && latency[1]<=64) {c64++;} if(latency[1]>64 && latency[1]<=128) {c128++;} if(latency[1]>128) {c++;}} END{print c1, c2, c4, c8, c16, c32, c64, c128, c, (c1+c2+c4+c8+c16+c32+c64+c128+c), (c128+c)/(c1+c2+c4+c8+c16+c32+c64+c128+c)}'
 
 # 统计执行时间大于 100ms的所有日志
-grep "#backend-rw#" cetus-29360.clg|awk 'BEGIN {c1=0;c2=0;c4=0;c8=0;c16=0;c32=0;c64=0;c128=0;c=0}{split($16, flag, ":"); split(flag[2], latency, "("); if (latency[1] > 100) {print }}'|less
+grep "#backend-rw#" cetus-29360.clg|awk '{split($16, flag, ":"); split(flag[2], latency, "("); if (latency[1] > 100) {print }}'|less
 ```
 
 ##### 4.3 统计不同业务IP发送的sql请求数量
