@@ -110,7 +110,7 @@ grep "#client#" cetus-29360.clg|awk '{print $4}'|awk -F ':' '{print $2}'|sort |u
 
 ![9.6.2](./images/9.6.2.png)
 
-当又有日志产生，写入了len字节数据后，有可能计数器in已经超过了**无符号整型**最大值，此时in会发生溢出，溢出的值实际上是无符号整型（假设32位）最大值加1，假设其为：MAX\_UINT\_32 + 1；假设此时out并没有溢出，假设当前in的实际值in\_now = in\_before + len - (MAX\_UINT\_32 + 1)。此时unused = size - (in\_now - out) = size - (in\_before + len - (MAX\_UINT\_32 + 1) - out) = size - (in\_before -out) - len + (MAX\_UINT\_32 + 1)，又因为 unused\_before = size - (in\_before - out)，所以 ununsed = unused\_before -len + (MAX\_UINT\_32 + 1)，此时unused同样溢出unused\_now = unused - (MAX\_UINT\_32 + 1) = unused\_before -len + (MAX\_UINT\_32 + 1) - (MAX\_UINT\_32 + 1) = unused\_before - len。即写入了len字节，当前空闲内存缩小了len，说明该场景下，计算可用内存容量的公式依旧正确。
+当又有日志产生，写入了len字节数据后，有可能计数器in已经超过了**无符号整型**最大值，此时in会发生溢出，溢出的值实际上是无符号整型（假设32位）最大值加1，假设其为：MAX\_UINT\_32 + 1；假设此时out并没有溢出，假设当前in的实际值in\_now = in\_before + len - (MAX\_UINT\_32 + 1)。此时unused = size - (in\_now - out) = size - (in\_before + len - (MAX\_UINT\_32 + 1) - out) = size - (in\_before -out) - len + (MAX\_UINT\_32 + 1)，又因为 unused\_before = size - (in\_before - out)，所以 ununsed = unused\_before -len + (MAX\_UINT\_32 + 1)，此时unused同样溢出unused\_now = unused - (MAX\_UINT\_32 + 1) = unused\_before -len + (MAX\_UINT\_32 + 1) - (MAX\_UINT\_32 + 1) = unused\_before - len。即写入了len字节，当前空闲内存缩小了len，说明该场景下，计算可用内存容量的公式依旧正确。下图蓝色区域表示新产生的len字节的数据。
 
 ![9.6.3](./images/9.6.3.png)
 
