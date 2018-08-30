@@ -116,7 +116,7 @@ grep "#client#" cetus-29360.clg|awk '{print $4}'|awk -F ':' '{print $2}'|sort |u
 
 同理，当out也溢出时，情况和上述分析一样，计算当前内存可用字节unused = size - (in - out)同样正确，该情况就不再赘述了。
 
-当in与out的值再次相等时，该循环队列满，即ununsed = size - (in - out) = size，此时新产生的日志，将会丢弃。因此用户应该合理的配置缓冲队列的大小与全量日志的刷新频率。
+当in与out的值再次相等时，该循环队列满，即ununsed = size - (in - out) = size，此时新产生的日志，将会丢弃。因此用户应该合理的配置缓冲队列的大小（sql-log-bufsize）与全量日志的刷盘频率（sql-log-idletime）。
 
 ![9.6.4](./images/9.6.4.png)
 
