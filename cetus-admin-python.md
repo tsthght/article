@@ -22,6 +22,44 @@ cetus中间件对外暴露了两类端口：admin端口，用于对cetus进行�
 ```
 Traceback (most recent call last):
   File "./conpymysql.py", line 5, in <module>
+    conn = connector.connect(host="172.17.0.2", user="admin", passwd="admin", port=6003, autocommit=None)
+  File "/usr/lib/python2.7/site-packages/pymysql/__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 327, in __init__
+    self.connect()
+  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 598, in connect
+    self._request_authentication()
+  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 783, in _request_authentication
+    if int(self.server_version.split('.', 1)[0]) >= 5:
+```
+
+同样查看pymysql源码，有如下代码（connections.py）：
+
+```
+def _request_authentication(self):
+    # https://dev.mysql.com/doc/internals/en/connection-phase-packets.html#packet-Protocol::HandshakeResponse
+    if int(self.server_version.split('.', 1)[0]) >= 5:
+        self.client_flag |= CLIENT.MULTI_RESULTS
+
+```
+
+通过代码不难知道，pymysql会获得server端传过来的版本号，然后根据版本号设置client_flag标志。因此，抓包看cetus的admin端口实际发送的版本信息是什么，抓包结果如下：
+
+![8.3.2.png](./images/8.3.2.png)
+
+而实际MySQL发送的版本信息的格式如下所示：
+
+![8.3.3.png](./images/8.3.3.png)
+
+因此，在cetus代码中，将admin端口发送的版本信息修改成以版本号开头的格式即可，修改后发送的版本号信息，抓包如下：
+
+![8.3.4.png](./images/8.3.4.png)
+
+cetus版本号做了兼容性修改后，又出现新的错误：
+
+```
+Traceback (most recent call last):
+  File "./conpymysql.py", line 5, in <module>
     conn = connector.connect(host="172.17.0.2", user="admin", passwd="admin", port=6003)
   File "/usr/lib/python2.7/site-packages/pymysql/__init__.py", line 94, in Connect
     return Connection(*args, **kwargs)
@@ -60,44 +98,6 @@ if self.autocommit_mode is not None:
 上述源码显示，发送set autocommit=0是通过参数控制的，控制的参数如下：
 
 > autocommit=None
-
-当使用上述参数禁用pymysql建立连接发送autocommit语句后，又出现新的错误：
-
-```
-Traceback (most recent call last):
-  File "./conpymysql.py", line 5, in <module>
-    conn = connector.connect(host="172.17.0.2", user="admin", passwd="admin", port=6003, autocommit=None)
-  File "/usr/lib/python2.7/site-packages/pymysql/__init__.py", line 94, in Connect
-    return Connection(*args, **kwargs)
-  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 327, in __init__
-    self.connect()
-  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 598, in connect
-    self._request_authentication()
-  File "/usr/lib/python2.7/site-packages/pymysql/connections.py", line 783, in _request_authentication
-    if int(self.server_version.split('.', 1)[0]) >= 5:
-```
-
-同样查看pymysql源码，有如下代码（connections.py）：
-
-```
-def _request_authentication(self):
-    # https://dev.mysql.com/doc/internals/en/connection-phase-packets.html#packet-Protocol::HandshakeResponse
-    if int(self.server_version.split('.', 1)[0]) >= 5:
-        self.client_flag |= CLIENT.MULTI_RESULTS
-
-```
-
-通过代码不难知道，pymysql会获得server端传过来的版本号，然后根据版本号设置client_flag标志。因此，抓包看cetus的admin端口实际发送的版本信息是什么，抓包结果如下：
-
-![8.3.2.png](./images/8.3.2.png)
-
-而实际MySQL发送的版本信息的格式如下所示：
-
-![8.3.3.png](./images/8.3.3.png)
-
-因此，在cetus代码中，将admin端口发送的版本信息修改成以版本号开头的格式即可，修改后发送的版本号信息，抓包如下：
-
-![8.3.4.png](./images/8.3.4.png)
 
 通过上述两点修改，Python使用pymysql就可以正常的与cetus的admin端口进行交互了。
 
